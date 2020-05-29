@@ -64,19 +64,24 @@
 <a href="#yaposer" class="anchor"></a>yaposer</h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The goal of yaposer is to …</p>
+<p>The goal of <code>yaposer</code> is to help the user to manipulate and visualise inputs and outputs for the <a href="https://github.com/matteodefelice/yapos">YAPOS power system model</a>. This package is designed to support the user to work with the model in a consistent and error-proof workflow in particular when working with batch simulations.</p>
+<p><code>yaposer</code> provides the possibilities:</p>
+<ul>
+<li>load into the R workspace the input of a simulation from a folder or directly from the results of another simulation</li>
+<li>check the consistency of the inputs and carry out a simple yet useful pre-processing to detect potential issues in the input parameters</li>
+<li>write to disk a set of inputs for YAPOS starting from data structures in the R workspace</li>
+<li>visualise the results with an interactive Shiny application</li>
+</ul>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of yaposer from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"yaposer"</span>)</pre></div>
+<p><code>yaposer</code> is not yet on <a href="https://CRAN.R-project.org">CRAN</a>, you can install it using the <code>remotes</code> package</p>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"matteodefelice/yaposer"</span>)</pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="examples" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">yaposer</span>)
-<span class="co">## basic example code</span></pre></div>
+<a href="#examples" class="anchor"></a>Examples</h2>
+<p>Examples and tutorials are available on the YAPOS homepage.</p>
 </div>
 </div>
   </div>
