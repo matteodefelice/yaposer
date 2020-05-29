@@ -16,6 +16,7 @@
 #' @return A list containing all the data
 #' @export
 #' @importFrom magrittr %>%
+#' @importFrom readr read_csv
 
 read_input_from_folder <- function(folder) {
 
