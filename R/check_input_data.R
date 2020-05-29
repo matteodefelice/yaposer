@@ -8,6 +8,15 @@
 #' @param s List containing all
 #' @return A list containing all the data
 #' @export
+#' @importFrom tibble tibble
+#' @importFrom dplyr mutate
+#' @importFrom dplyr summarise
+#' @importFrom dplyr left_join
+#' @importFrom dplyr inner_join
+#' @importFrom dplyr bind_rows
+#' @importFrom dplyr group_by
+#' @importFrom dplyr pull
+#' @importFrom dplyr select_if
 
 check_input_data <- function(s) {
   # S is structure returned by load_sim_data
@@ -15,26 +24,26 @@ check_input_data <- function(s) {
   if (length(s) != 13) stop("The input list length != 13")
 
   # SIZE
-  if (!all(dim(o$lin) == c(o$NLINES, 4))) stop("`lin` structure has the wrong size [NLINES x 4]")
+  if (!all(dim(s$lin) == c(s$NLINES, 4))) stop("`lin` structure has the wrong size [NLINES x 4]")
 
-  if (!all(dim(o$gen) == c(o$NUNITS, 10))) stop("`gen` structure has the wrong size [NUNITS x 10]")
+  if (!all(dim(s$gen) == c(s$NUNITS, 10))) stop("`gen` structure has the wrong size [NUNITS x 10]")
 
-  if (!all(dim(o$avail) == c(o$NSTEPS, o$NUNITS))) stop("`avail` structure has the wrong size [NSTEPS x NUNITS]")
-  if (!all(dim(o$inflow) == c(o$NSTEPS, o$NUNITS))) stop("`inflow` structure has the wrong size [NSTEPS x NUNITS]")
-  if (!all(dim(o$stomin) == c(o$NSTEPS, o$NUNITS))) stop("`stomin` structure has the wrong size [NSTEPS x NUNITS]")
+  if (!all(dim(s$avail) == c(s$NSTEPS, s$NUNITS))) stop("`avail` structure has the wrong size [NSTEPS x NUNITS]")
+  if (!all(dim(s$inflow) == c(s$NSTEPS, s$NUNITS))) stop("`inflow` structure has the wrong size [NSTEPS x NUNITS]")
+  if (!all(dim(s$stomin) == c(s$NSTEPS, s$NUNITS))) stop("`stomin` structure has the wrong size [NSTEPS x NUNITS]")
 
-  if (!all(dim(o$ren) == c(o$NSTEPS, o$NZONES))) stop("`ren` structure has the wrong size [NSTEPS x NZONES]")
-  if (!all(dim(o$dem) == c(o$NSTEPS, o$NZONES))) stop("`dem` structure has the wrong size [NSTEPS x NZONES]")
+  if (!all(dim(s$ren) == c(s$NSTEPS, s$NZONES))) stop("`ren` structure has the wrong size [NSTEPS x NZONES]")
+  if (!all(dim(s$dem) == c(s$NSTEPS, s$NZONES))) stop("`dem` structure has the wrong size [NSTEPS x NZONES]")
 
   # NAMES
-  if (!all((o$gen$Unit) == o$UNITS)) stop("Unit names in `gen` MUST be the same of UNITS and in the same order")
+  if (!all((s$gen$Unit) == s$UNITS)) stop("Unit names in `gen` MUST be the same of UNITS and in the same order")
 
-  if (!all(colnames(o$avail) == o$UNITS)) stop("Column names of `avail` MUST be the same of UNITS and in the same order")
-  if (!all(colnames(o$inflow) == o$UNITS)) stop("Column names of `inflow` MUST be the same of UNITS and in the same order")
-  if (!all(colnames(o$stomin) == o$UNITS)) stop("Column names of `stomin` MUST be the same of UNITS and in the same order")
+  if (!all(colnames(s$avail) == s$UNITS)) stop("Column names of `avail` MUST be the same of UNITS and in the same order")
+  if (!all(colnames(s$inflow) == s$UNITS)) stop("Column names of `inflow` MUST be the same of UNITS and in the same order")
+  if (!all(colnames(s$stomin) == s$UNITS)) stop("Column names of `stomin` MUST be the same of UNITS and in the same order")
 
-  if (!all(colnames(o$ren) == o$ZONES)) stop("Column names of `ren` MUST be the same of ZONES and in the same order")
-  if (!all(colnames(o$dem) == o$ZONES)) stop("Column names of `dem` MUST be the same of ZONES and in the same order")
+  if (!all(colnames(s$ren) == s$ZONES)) stop("Column names of `ren` MUST be the same of ZONES and in the same order")
+  if (!all(colnames(s$dem) == s$ZONES)) stop("Column names of `dem` MUST be the same of ZONES and in the same order")
 
   # WARNING ISOLATED ZONES -------------------------------------
   if (any(is.na(match(seq(0, s$NZONES - 1), unique(c(s$lin$from, s$lin$to)))))) {
@@ -69,12 +78,12 @@ check_input_data <- function(s) {
     left_join(
       s$inflow %>%
         select_if(~ any(. > 0)) %>%
-        pivot_longer(
+        tidyr::pivot_longer(
           names_to = "unit",
           values_to = "inflow",
           cols = everything()
         ) %>%
-        mutate(zone = str_sub(unit, 1, 2)) %>%
+        mutate(zone = stringr::str_sub(unit, 1, 2)) %>%
         group_by(zone) %>%
         summarise(inflow = sum(inflow) / 1e6),
       by = "zone"

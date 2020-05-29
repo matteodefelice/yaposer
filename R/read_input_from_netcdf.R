@@ -7,7 +7,8 @@
 #' @examples
 #' target_nc_file <- system.file("extdata", "es-pt-fr.nc", package = "yaposer", mustWork = TRUE)
 #' inputs <- read_inputs_from_netcdf(target_nc_file)
-#' @export
+#' @importFrom dplyr rename
+#' @importFrom dplyr select
 read_inputs_from_netcdf <- function(nc_output_file) {
   f <- tidync::tidync(nc_output_file)
 
