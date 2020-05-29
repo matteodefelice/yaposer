@@ -17,6 +17,10 @@
 #' @export
 #' @importFrom magrittr %>%
 #' @importFrom readr read_csv
+#' @importFrom glue glue
+#' @importFrom readr cols
+#' @importFrom readr col_character
+#' @importFrom readr col_double
 
 read_input_from_folder <- function(folder) {
 
