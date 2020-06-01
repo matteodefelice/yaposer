@@ -10,7 +10,7 @@ read_input_from_folder(folder)
 \item{folder}{Path of the directory containing the files}
 }
 \value{
-A list containing all the data
+A list containing all the data. See Details section for more information.
 }
 \description{
 This function loads all the input data for a YAPOS simulation into a `list`
@@ -25,5 +25,22 @@ The function looks for in the specified folder the following CSV files:
   \item `inflow.csv`: time-series of inflow
   \item `avail.csv`: time-series of units' availabilities
   \item `stomin`: time-series with the storage minimum
+}
+
+The function returns 13 objects:
+\itemize{
+\item `lin`: the list of transmission lines
+\item `NLINES`: the number of transmission lines
+\item `avail`: time-series of availabilities of generation units
+\item `UNITS`: vector containing the name of all the generation units in the right order
+\item `NUNITS`: the number of generation units
+\item `NSTEP`: length of the simulation, thus the number of time steps in the time-series
+\item `inflow`: time-series of inflow for the generation units
+\item `ren`: time-series of non-dispatchable renewables
+\item `NZONES`: number of simulated zones
+\item `ZONES`: vector with the name of the simulated zones in the right order
+\item `dem`: time-series of demand
+\item `gen`: data frame with the generation units' parameters
+\item `stomin`: time-series of minimum storage
 }
 }
