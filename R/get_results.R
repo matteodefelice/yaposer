@@ -284,7 +284,8 @@ get_results <- function(nc_output_file, create_plots = TRUE) {
       theme_light() +
       coord_equal(ratio = 20) +
       labs(
-        x = "day"
+        x = "day",
+        y = 'line'
       )
   }
   ## SHEDDING AND CURTAILMENT
