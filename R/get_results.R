@@ -224,7 +224,7 @@ get_results <- function(nc_output_file, create_plots = TRUE) {
   }
   ## COMPARISON ENTSO-E
   out_data$compare_entsoe <- inner_join(
-    read_csv("entsoe-metis-ds-stats.csv") %>%
+    entsoe_data %>%
       select(zone = Country, variable, prod = TWh) %>%
       mutate(
         fuel_class = case_when(

@@ -18,3 +18,5 @@ Imports:
     plotly,
     tidync
 RoxygenNote: 7.1.0
+Depends: 
+    R (>= 2.10)
