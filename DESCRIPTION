@@ -16,7 +16,8 @@ Imports:
     lubridate,
     shiny,
     plotly,
-    tidync
+    tidync,
+    DT
 RoxygenNote: 7.1.0
 Depends: 
     R (>= 2.10)

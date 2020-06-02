@@ -5,11 +5,12 @@
 #' Simulation data must be loaded using `get_results`
 #'
 #' @param res Results loaded with `get_results`
+#' @import shiny
 #' @export
 viz_results <- function(res) {
   shinyApp(
     navbarPage(
-      "Navbar!",
+      "YAPOSER",
       tabPanel(
         "Input Data",
         sidebarLayout(
@@ -19,8 +20,7 @@ viz_results <- function(res) {
               label = h3("Select input"),
               choices = list(
                 "Generation units" =  "all_gen",
-                "Lines" =  "all_lines",
-                "Choice 3" = 3
+                "Lines" =  "all_lines"
               ),
               selected = 1
             )
@@ -45,8 +45,7 @@ viz_results <- function(res) {
           ),
           mainPanel(
             width = 10,
-            # plotOutput("dispatch")
-            plotlyOutput("dispatch")
+            plotly::plotlyOutput("dispatch")
           )
         )
       ),
@@ -66,26 +65,24 @@ viz_results <- function(res) {
           ),
           mainPanel(
             width = 10,
-            # plotOutput("dispatch")
-            plotlyOutput("sum_plot")
+            plotly::plotlyOutput("sum_plot")
           )
         )
       )
     ),
     function(input, output, session) {
       ## DISPATCH PLOT ##
-      output$dispatch <- renderPlotly({
-        ggplotly(
+      output$dispatch <- plotly::renderPlotly({
+        plotly::ggplotly(
           res$plots$dispatch[[input$dis_zone]]
         )
       })
 
       ## SUMMARY PLOT ##
-      output$sum_plot <- renderPlotly({
+      output$sum_plot <- plotly::renderPlotly({
         if (input$sum_plot_type == "annual_gen") {
-          ggplotly(
+          plotly::ggplotly(
             res$plots$annual_gen
-            # res$plots$dispatch$ES
           )
         }
       })
