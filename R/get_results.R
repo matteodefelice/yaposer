@@ -1,7 +1,8 @@
 #' Load and analyse YAPOS results
 #'
 #' This function loads all the results of the simulation contained in the target NetCDF file
-#' and returns a set of pre-defined plots and tables
+#' and returns a set of pre-defined plots and tables. If the text output files containing the simulation dual
+#' values are present in the same folder of the NetCDF file, this function loads and store their value in a data frame.
 #'
 #' Returned data include the following data frames:
 #'
@@ -12,31 +13,30 @@
 #' \item `final_dem`: time-series of demand
 #' \item `ZONES`: vector containing all the names of the simulated zones
 #' \item `final_ren`: time-series of non-dispatchable renewables
-#' \item `shed`
-#' \item `curt`
-#' \item `sl`
-#' \item `final_prod_detailed`
-#' \item `compare_entsoe`
-#' \item `final_co2`
-#' \item `flow`
-#' \item `summary_curt_shed`
-#' \item `storage_level`
-#' \item `all_inflow`
-#' \item `dual`
+#' \item `shed`: time-series of daily shed load
+#' \item `curt`: time-series of daily curtailed electricity
+#' \item `storage_level`: storage levels at daily resolution for each generating unit. This data frame contains also availability and storage minimum
+#' \item `final_prod_detailed`: generation for each generation unit including fuel type, zone of the unit and the emissions per MWh
+#' \item `compare_entsoe`: comparison of the annual generation per zone and fuel with the ENTSO-E data (Statistical Factsheets) for 2016
+#' \item `final_co2`: time-series of CO2 generation per zone
+#' \item `flow`: time-series of electricity flow per line. It contains also the normalised values.
+#' \item `summary_curt_shed`: table with the annual values of shed load and curtailed electricity
+#' \item `all_inflow`: cumulated inflow per zone
+#' \item `dual`: dual values for all problem constraints
 #' }
 #'
 #' The plots are instead:
 #' \itemize{
-#' \item `single_res`
-#' \item `all_res`
-#' \item `dispatch`
-#' \item `annual_gen`
-#' \item `entsoe`
-#' \item `co2`
-#' \item `flow`
-#' \item `inflow`
-#' \item `curtailment`
-#' \item `shedding`
+#' \item `single_res`: storage level per single unit
+#' \item `all_res`: area plot of cumulated storage levels
+#' \item `dispatch`: dispatch plots per zone
+#' \item `annual_gen`: summary of annual generation
+#' \item `entsoe`: comparison with ENTSO-E
+#' \item `co2`: area plot of the cumulated CO2
+#' \item `flow`: heat-map with the electricity normalised flows
+#' \item `inflow`: cumulated inflows
+#' \item `curtailment`: plot of curtailment
+#' \item `shedding`: plot of shedding load
 #' }
 #'
 #' The dual data is loaded only if the function finds in the same directory of `nc_output_file`
@@ -124,7 +124,7 @@ get_results <- function(nc_output_file, create_plots = TRUE) {
     tidync::activate(curtailment_slack) %>%
     tidync::hyper_tibble()
   # Storage levels
-  out_data$sl <- f %>%
+  sl <- f %>%
     tidync::activate(storage_level) %>%
     tidync::hyper_tibble() %>%
     left_join(
@@ -245,7 +245,8 @@ get_results <- function(nc_output_file, create_plots = TRUE) {
       group_by(zone, fuel_class) %>%
       summarise(model_prod = sum(prod) / 1e6) %>%
       ungroup()
-  )
+  ) %>%
+    ungroup()
   if (create_plots) {
     out_plots[["entsoe"]] <- ggplot(out_data$compare_entsoe, aes(x = entsoe_prod, y = model_prod, color = fuel_class)) +
       geom_point() +
@@ -363,7 +364,7 @@ get_results <- function(nc_output_file, create_plots = TRUE) {
 
   ## Reservoir levels ------------------------------------------
 
-  out_data$storage_level <- out_data$sl %>%
+  out_data$storage_level <- sl %>%
     group_by(unit) %>%
     dplyr::filter(any(storage_level > 0)) %>%
     ungroup()
