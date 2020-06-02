@@ -3,10 +3,23 @@
 #' This function check if a list contains all the right data structures needed for
 #' a YAPOS simulation. It also checks if they are well-formed (dimensions and consistency).
 #'
-#' The function returs also a data frame containing pre-processing information on the simulation
+#' The function returns also a data frame containing pre-processing information on the simulation.
+#' The data frame has the following columns:
+#' \itemize{
+#' \item `zone`
+#' \item `demand`: annual total demand
+#' \item `net_demand`: annual total net-demand
+#' \item `cf_with_ntc`: the ratio between the net demand and the sum between total generation capacity and NTC
+#' \item `cf`: the ratio between net demand and total capacity
+#' \item `cf_must_run`: the ratio between net demand and must-run capacity (i.e. generation minimum)
+#' \item `inflow`: annual total inflow
+#' \item `inflow_capacity_ratio`: ratio between inflow and capacity of hydropower units
+#' \item `inflow_storage_ratio`: ratio between inflow and storage capacity
 #'
-#' @param s List containing all
-#' @return A list containing all the data
+#' }
+#'
+#' @param s List containing all the inputs
+#' @return data frame containing pre-processing information
 #' @export
 #' @importFrom tibble tibble
 #' @importFrom dplyr mutate
@@ -111,7 +124,7 @@ check_input_data <- function(s) {
     zones_with_high_must_run <- merged_df %>%
       dplyr::filter(cf_must_run < 1.5) %>%
       pull(zone)
-    warning(glue('The zones {paste(zones_with_high_must_run, collapse = ", ")} have a ratio between net demand and  must-run thermal capacity < 1.5'))
+    warning(glue('The zones {paste(zones_with_high_must_run, collapse = ", ")} have a ratio between net demand and must-run thermal capacity < 1.5'))
   }
   # CHECK RATIO inflow/CAPACITY --------------------------------
   merged_df <- merged_df %>%

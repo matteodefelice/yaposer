@@ -7,15 +7,28 @@
 check_input_data(s)
 }
 \arguments{
-\item{s}{List containing all}
+\item{s}{List containing all the inputs}
 }
 \value{
-A list containing all the data
+data frame containing pre-processing information
 }
 \description{
 This function check if a list contains all the right data structures needed for
 a YAPOS simulation. It also checks if they are well-formed (dimensions and consistency).
 }
 \details{
-The function returs also a data frame containing pre-processing information on the simulation
+The function returns also a data frame containing pre-processing information on the simulation.
+The data frame has the following columns:
+\itemize{
+\item `zone`
+\item `demand`: annual total demand
+\item `net_demand`: annual total net-demand
+\item `cf_with_ntc`: the ratio between the net demand and the sum between total generation capacity and NTC
+\item `cf`: the ratio between net demand and total capacity
+\item `cf_must_run`: the ratio between net demand and must-run capacity (i.e. generation minimum)
+\item `inflow`: annual total inflow
+\item `inflow_capacity_ratio`: ratio between inflow and capacity of hydropower units
+\item `inflow_storage_ratio`: ratio between inflow and storage capacity
+
+}
 }
