@@ -22,12 +22,13 @@ The function looks for in the specified folder the following CSV files:
   \item `lin.csv`: tranmission lines
   \item `dem.csv`: demand time-series
   \item `ren.csv`: time-series of non-dispatchable renewables
+  \item `ren_pp.csv`: non-dispatchable renewables capacity
   \item `inflow.csv`: time-series of inflow
   \item `avail.csv`: time-series of units' availabilities
   \item `stomin`: time-series with the storage minimum
 }
 
-The function returns 13 objects:
+The function returns 14 objects:
 \itemize{
 \item `lin`: the list of transmission lines
 \item `NLINES`: the number of transmission lines
@@ -37,6 +38,7 @@ The function returns 13 objects:
 \item `NSTEP`: length of the simulation, thus the number of time steps in the time-series
 \item `inflow`: time-series of inflow for the generation units
 \item `ren`: time-series of non-dispatchable renewables
+\item `ren_pp`: data frame with capacity for non-dispatchable renewables
 \item `NZONES`: number of simulated zones
 \item `ZONES`: vector with the name of the simulated zones in the right order
 \item `dem`: time-series of demand

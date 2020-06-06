@@ -8,12 +8,13 @@
 #'   \item `lin.csv`: tranmission lines
 #'   \item `dem.csv`: demand time-series
 #'   \item `ren.csv`: time-series of non-dispatchable renewables
+#'   \item `ren_pp.csv`: non-dispatchable renewables capacity
 #'   \item `inflow.csv`: time-series of inflow
 #'   \item `avail.csv`: time-series of units' availabilities
 #'   \item `stomin`: time-series with the storage minimum
 #' }
 #'
-#' The function returns 13 objects:
+#' The function returns 14 objects:
 #' \itemize{
 #' \item `lin`: the list of transmission lines
 #' \item `NLINES`: the number of transmission lines
@@ -23,6 +24,7 @@
 #' \item `NSTEP`: length of the simulation, thus the number of time steps in the time-series
 #' \item `inflow`: time-series of inflow for the generation units
 #' \item `ren`: time-series of non-dispatchable renewables
+#' \item `ren_pp`: data frame with capacity for non-dispatchable renewables
 #' \item `NZONES`: number of simulated zones
 #' \item `ZONES`: vector with the name of the simulated zones in the right order
 #' \item `dem`: time-series of demand
@@ -95,6 +97,9 @@ read_input_from_folder <- function(folder) {
   if (nrow(out_data$ren) == 0) stop(glue("{folder}/ren.csv has zero rows"))
   if (nrow(out_data$ren) != out_data$NSTEPS) stop(glue("{folder}/ren.csv n. of rows != avail.csv rows"))
   if (any(out_data$ren < 0)) stop(glue("{folder}/ren.csv has negative value(s)"))
+
+  out_data$ren_pp <- read_csv(glue("{folder}/ren_pp.csv"), col_types = cols())
+  if (nrow(out_data$ren_pp) == 0) stop(glue("{folder}/ren_pp.csv has zero rows"))
 
   out_data$dem <- read_csv(glue("{folder}/dem.csv"),
     col_types = cols(

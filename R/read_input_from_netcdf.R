@@ -36,6 +36,14 @@ read_inputs_from_netcdf <- function(nc_output_file) {
     ) %>%
     dplyr::select(-day)
 
+  out$ren_pp <- f %>%
+    tidync::activate(renewables_pp) %>%
+    tidync::hyper_tibble() %>%
+    tidyr::pivot_wider(
+      names_from = zone,
+      values_from = renewables_pp
+    )
+
   out$inflow <- f %>%
     tidync::activate(inflow) %>%
     tidync::hyper_tibble() %>%

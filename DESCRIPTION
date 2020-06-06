@@ -1,7 +1,7 @@
 Package: yaposer
 Type: Package
 Title: Companion package for the power systemo model YAPOS
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Matteo", "De Felice", email = "matteo.defelice@gmail.com", role = c("aut", "cre"))
 Description: Read and manipulate YAPOS input and output files
 License: CC BY 4.0

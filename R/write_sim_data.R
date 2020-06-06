@@ -15,6 +15,7 @@ write_sim_data <- function(sim_data, target_folder) {
   write_csv(sim_data$avail, glue("{target_folder}/avail.csv"))
   write_csv(sim_data$inflow, glue("{target_folder}/inflow.csv"))
   write_csv(sim_data$ren, glue("{target_folder}/ren.csv"))
+  write_csv(sim_data$ren_pp, glue("{target_folder}/ren_pp.csv"))
   write_csv(sim_data$dem, glue("{target_folder}/dem.csv"))
   write_csv(sim_data$gen, glue("{target_folder}/gen.csv"))
   write_csv(sim_data$stomin, glue("{target_folder}/stomin.csv"))

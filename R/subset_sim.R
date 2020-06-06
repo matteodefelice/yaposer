@@ -44,6 +44,9 @@ subset_sim <- function(sim_data, zones) {
   ret_data$ren <- ret_data$ren %>%
     select(ret_data$ZONES)
 
+  ret_data$ren_pp <- ret_data$ren_pp %>%
+    select(ren_technology, ret_data$ZONES)
+
   ret_data$gen <- ret_data$gen %>%
     dplyr::filter(
       bus %in% (id_zones - 1)
