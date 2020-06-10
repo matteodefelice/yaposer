@@ -34,7 +34,7 @@
 check_input_data <- function(s) {
   # S is structure returned by load_sim_data
   if (!is.list(s)) stop("The function check_input_data expects a list as input")
-  if (length(s) != 13) stop("The input list length != 13")
+  if (length(s) != 14) stop("The input list length != 14")
 
   # SIZE
   if (!all(dim(s$lin) == c(s$NLINES, 4))) stop("`lin` structure has the wrong size [NLINES x 4]")
@@ -47,6 +47,8 @@ check_input_data <- function(s) {
 
   if (!all(dim(s$ren) == c(s$NSTEPS, s$NZONES))) stop("`ren` structure has the wrong size [NSTEPS x NZONES]")
   if (!all(dim(s$dem) == c(s$NSTEPS, s$NZONES))) stop("`dem` structure has the wrong size [NSTEPS x NZONES]")
+
+  if (!(ncol(s$ren_pp) == 1+s$NZONES)) stop("`ren_pp` structure has the wrong number of columns [1+NZONES]")
 
   # NAMES
   if (!all((s$gen$Unit) == s$UNITS)) stop("Unit names in `gen` MUST be the same of UNITS and in the same order")
