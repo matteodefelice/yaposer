@@ -45,7 +45,7 @@ subset_sim <- function(sim_data, zones) {
     select(ret_data$ZONES)
 
   ret_data$ren_pp <- ret_data$ren_pp %>%
-    select(ren_technology, ret_data$ZONES)
+    select(Technology, ret_data$ZONES)
 
   ret_data$gen <- ret_data$gen %>%
     dplyr::filter(
