@@ -107,7 +107,7 @@ read_input_from_folder <- function(folder) {
     )
   )
   if (ncol(out_data$dem) == 0) stop(glue("{folder}/dem.csv has zero columns"))
-  if (ncol(out_data$dem) != out_data$NZONES) stop(glue("{folder}/dem.csv n. of columns != dem.csv columns"))
+  if (ncol(out_data$dem) != out_data$NZONES) stop(glue("{folder}/dem.csv n. of columns != ren.csv columns"))
   if (nrow(out_data$dem) == 0) stop(glue("{folder}/dem.csv has zero rows"))
   if (nrow(out_data$dem) != out_data$NSTEPS) stop(glue("{folder}/dem.csv n. of rows != avail.csv rows"))
   if (any(out_data$dem < 0)) stop(glue("{folder}/dem.csv has negative value(s)"))
