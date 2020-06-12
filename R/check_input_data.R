@@ -114,6 +114,15 @@ check_input_data <- function(s) {
       cf_with_ntc = net_demand / (total_capacity + ntc_capacity),
       cf_must_run = net_demand / (must_run_capacity)
     )
+  # Check if there are zones with zero inflow but non-zero hydro capacity
+  if (any(merged_df$hydro_capacity[((merged_df$inflow)==0) | is.na(merged_df$inflow)] > 0)) {
+    zones_with_inconsistent_hydro <- merged_df %>%
+      dplyr::filter((inflow  ==0 ) | is.na(inflow),
+                    hydro_capacity > 0) %>%
+      pull(zone)
+    warning(glue('The zones {paste(zones_with_inconsistent_hydro, collapse = ", ")} have zero inflow but hydropower capacity > 0'))
+
+  }
   # Check RATIO CF/net demand -------------------------------------------
   if (any(merged_df$cf_with_ntc > 0.9)) {
     zones_with_high_cf <- merged_df %>%
