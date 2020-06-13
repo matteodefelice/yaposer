@@ -72,7 +72,7 @@ get_results <- function(nc_output_file, create_plots = TRUE) {
     f %>% tidync::activate(unit_min) %>% tidync::hyper_tibble() %>% select(-unit),
     f %>% tidync::activate(unit_stomin) %>% tidync::hyper_tibble() %>% select(-unit)
   ) %>%
-    rename_at(vars(starts_with("unit")), funs(sub("unit_", "", .)))
+    rename_with(~sub("unit_", "", .), starts_with("unit"))
 
   # Load lines --------------------------------------------------------------
   out_data$all_lines <- bind_cols(
@@ -81,7 +81,7 @@ get_results <- function(nc_output_file, create_plots = TRUE) {
     f %>% tidync::activate(line_to) %>% tidync::hyper_tibble() %>% select(-line),
     f %>% tidync::activate(line_cap) %>% tidync::hyper_tibble() %>% select(-line)
   ) %>%
-    rename_at(vars(starts_with("line")), funs(sub("line_", "", .)))
+      rename_with(~sub("line_", "", .), starts_with("line"))
   ## AVAILABILITY --------------------------------------------------------------------
   out_data$avail <- f %>%
     tidync::activate(availability) %>%
