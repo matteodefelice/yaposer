@@ -9,7 +9,8 @@
 #' inputs <- read_inputs_from_netcdf(target_nc_file)
 #' @importFrom dplyr rename
 #' @importFrom dplyr select
-read_inputs_from_netcdf <- function(nc_output_file) {
+#' @export
+read_input_from_netcdf <- function(nc_output_file) {
   f <- tidync::tidync(nc_output_file)
 
   out <- list()

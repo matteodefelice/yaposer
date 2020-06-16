@@ -3,6 +3,7 @@
 export(check_input_data)
 export(get_results)
 export(read_input_from_folder)
+export(read_input_from_netcdf)
 export(subset_sim)
 export(viz_results)
 export(write_sim_data)
